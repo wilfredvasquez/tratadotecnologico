@@ -11,10 +11,14 @@ def main():
         data = menu.register()
         print("Los datos de registro son: ")
         print(data)
+        time.sleep(2)
+        main()
     elif opcion == "2":
-     	data = menu.login()
-     	print("Los datos de ingreso son: ")
-     	print(data)
+        data = menu.login()
+        print("Los datos de ingreso son: ")
+        print(data)
+        time.sleep(2)
+        main()
     elif opcion == "3":
         menu.exit_text()
         time.sleep(2)
