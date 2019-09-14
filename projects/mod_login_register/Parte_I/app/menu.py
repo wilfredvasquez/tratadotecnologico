@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import os
+from validators import ValidationError, validar_email, validar_password
 
 class MenuTemplate():
     def __init__(self,
@@ -28,10 +29,15 @@ class MenuTemplate():
     def register(self):
         self.clean_screen()
         self.head()
-        username = input("Ingrese username: ")
-        email = input("Ingrese email: ")
-        password1 = input("Ingrese password: ")
-        password2 = input("Repita el password: ")
+        try:
+            username = input("Ingrese username: ")
+            email = validar_email(input("Ingrese email: "))
+            password1 = input("Ingrese password: ")
+            password2 = input("Repita el password: ")
+            validar_password(password1, password2)
+        except ValidationError as e:
+            return e.message
+
         return {
             "username": username,
             "email": email,

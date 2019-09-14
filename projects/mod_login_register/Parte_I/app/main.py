@@ -14,26 +14,27 @@ def main():
     if opcion == "1":
         ''' Sección para el registro de usuario '''
         data = menu.register()
+        
+        if "username" in data:
+            if data["username"] in username:
+                print(f'Este username: <{data["username"]}> ya se encuentra registrado.')
+            elif data["email"] in email:
+                print(f'Este Email: <{data["email"]}> ya se encuentra registrado.')
+            else:
+                password_hashed = bcrypt.hashpw(
+                    data["password1"].encode('utf8'), 
+                    bcrypt.gensalt()
+                )
+                
+                username.append(data["username"])
+                email.append(data["email"])
+                password.append(password_hashed)
 
-        if data["username"] in username:
-            print(f'Este username: <{data["username"]}> ya se encuentra registrado.')
-        elif data["email"] in email:
-            print(f'Este Email: <{data["email"]}> ya se encuentra registrado.')
-        elif not data["password1"] == data["password2"]:
-            print(f'Las contraseñas no coinciden.')
+                print ("Se ha registrado en el sistema.")
         else:
-            password_hashed = bcrypt.hashpw(
-                data["password1"].encode('utf8'), 
-                bcrypt.gensalt()
-            )
-            
-            username.append(data["username"])
-            email.append(data["email"])
-            password.append(password_hashed)
+            print(f"\n{data}")
 
-            print ("Se ha registrado en el sistema.")
-
-        time.sleep(2)
+        input("\nPresione una tecla para continuar...")
         main()
 
     elif opcion == "2":
@@ -52,7 +53,7 @@ def main():
         except ValueError as e:
             print("Username o password inválido.")
 
-        time.sleep(2)
+        input("\nPresione una tecla para continuar...")
         main()
 
     elif opcion == "3":
