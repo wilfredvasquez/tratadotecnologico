@@ -35,8 +35,8 @@ class SQLiteConection():
 
 class MySQLConection():
     DB_HOST = "localhost"
-    DB_USER = "root"
-    DB_PASS = "123456"
+    DB_USER = "your_user"
+    DB_PASS = "your_pass"
     DB_NAME = "LoginDB"
 
     def connect(self):
