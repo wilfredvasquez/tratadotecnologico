@@ -2,21 +2,21 @@
 import time
 import bcrypt
 from menu import MenuTemplate
-from db_conection import SQLiteConection
+from db_conection import MySQLConection
 
 def main():
     menu = MenuTemplate()
     opcion = menu.main_menu()
-    sqlite_db = SQLiteConection()
+    mysql_db = MySQLConection()
 
     if opcion == "1":
         ''' Sección para el registro de usuario '''
         data = menu.register()
         
         if "username" in data:
-            if sqlite_db.find_user_by_username(data["username"]):
+            if mysql_db.find_user_by_username(data["username"]):
                 print(f'Este username: <{data["username"]}> ya se encuentra registrado.')
-            elif sqlite_db.find_user_by_email(data["email"]):
+            elif mysql_db.find_user_by_email(data["email"]):
                 print(f'Este Email: <{data["email"]}> ya se encuentra registrado.')
             else:
                 password_hashed = bcrypt.hashpw(
@@ -24,7 +24,7 @@ def main():
                     bcrypt.gensalt()
                 )
                 
-                new_user = sqlite_db.create_user(
+                new_user = mysql_db.create_user(
                     data["username"],
                     data["email"],
                     password_hashed
@@ -44,9 +44,9 @@ def main():
         ''' Sección para el login de usuario '''
         data = menu.login()
 
-        result = sqlite_db.find_user_by_username(data["username"])
+        result = mysql_db.find_user_by_username(data["username"])
         if result:
-            if not bcrypt.checkpw(data["password"].encode('utf8'), result[2]):
+            if not bcrypt.checkpw(data["password"].encode('utf8'), result[2].encode('utf8')):
                 print("Username o password inválido.")
             else:
                 print("Usted ha ingresado al sistema.")
